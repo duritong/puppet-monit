@@ -63,64 +63,8 @@ class monit(
     fail('You should set a different secret if you want to use the httpd!')
   }
 
-	# The package
-	package { "monit":
-		ensure => installed,
-	}
-	
-	# The service
-	service { "monit":
-		ensure  => running,
-		require => Package["monit"],
-	}
-	
-	# How to tell monit to reload its configuration
-	exec { "monit reload":
-		command     => "/usr/sbin/monit reload",
-		refreshonly => true,
-	}
-	
-	# Default values for all file resources
-	File {
-		owner   => "root",
-		group   => "root",
-		mode    => 0400,
-		notify  => Exec["monit reload"],
-		require => Package["monit"],
-	}
-	
-	# The main configuration directory, this should have been provided by
-	# the "monit" package, but we include it just to be sure.
-	file { "/etc/monit":
-			ensure  => directory,
-			mode    => 0700,
-	}
-
-	# The configuration snippet directory.  Other packages can put
-	# *.monitrc files into this directory, and monit will include them.
-	file { "/etc/monit/conf.d":
-			ensure  => directory,
-			mode    => 0700,
-	}
-
-	# The main configuration file
-	file { "/etc/monit/monitrc":
-		content => template("monit/monitrc.erb"),
-	}
-
-	# Monit is disabled by default on debian / ubuntu
-	case $operatingsystem {
-		"debian": {
-			file { "/etc/default/monit":
-				content => "startup=1\nCHECK_INTERVALS=${monit::pool_interval}\n",
-				before  => Service["monit"]
-			}
-		}
-	}
-
-	# A template configuration snippet.  It would need to be included,
-	# since monit's "include" statement cannot handle an empty directory.
-	monit::snippet{ "monit_template":
-		source => "puppet://$server/modules/monit/template.monitrc",
-	}
+  case $operatingsystem {
+    debian,ubuntu: { include monit::debian }
+    default: { include monit::base }
+  }
 }
