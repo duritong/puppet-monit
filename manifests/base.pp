@@ -34,6 +34,9 @@ class monit::base {
     # *.monitrc files into this directory, and monit will include them.
     '/etc/monit/conf.d':
       ensure  => directory,
+      recurse => true,
+      purge   => true,
+      force   => true,
       mode    => '0700';
     '/etc/monit/monitrc':
       content => template('monit/monitrc.erb');
