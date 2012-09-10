@@ -59,6 +59,9 @@ class monit(
   # mailserver
   $mailserver = 'localhost'
 ){
+  if $secret == 'This is not very secret, is it?' and $enable_httpd == 'yes' {
+    fail('You should set a different secret if you want to use the httpd!')
+  }
 
 	# The package
 	package { "monit":
