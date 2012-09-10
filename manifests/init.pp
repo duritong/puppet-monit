@@ -40,12 +40,12 @@
 #                Default: "This is not very secret, is it?"
 #
 class monit(
-	# The monit_secret is used with the fqdn of the host to make a
-	# password for the monit http server.
-	$secret = 'This is not very secret, is it?',
+  # The monit_secret is used with the fqdn of the host to make a
+  # password for the monit http server.
+  $secret = 'This is not very secret, is it?',
 
-	# The default alert recipient.
-	$alert = 'root@localhost',
+  # The default alert recipient.
+  $alert = 'root@localhost',
 
   # How often should the daemon pool? Interval in seconds.
   $pool_interval = '120',
