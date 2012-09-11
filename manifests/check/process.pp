@@ -1,8 +1,8 @@
 # Define: monit::check::process
-# Creates a monit process check,
+# Creates a monit process check
 #
 # Parameters:
-#   namevar     - the name of this resource will be the process name
+#   namevar     - the name of this resource will be the `process` name
 #   pidfile     - the pidfile monit will check
 #   start       - the command used by monit to start the service
 #   stop        - the command used by monit to stop the service
@@ -15,11 +15,10 @@
 #    - creates /etc/monit/conf.d/namevar.monitrc as root:root mode 0400
 #      based on _template_
 #
-# Requires:
-#   - Package["monit"]
+# Notifies:
+#   - Service['monit'] should be provided by the monit class
 #
 # Sample usage:
-# (start code)
 #   monit::check::process{"openssh":
 #     pidfile     => "/var/run/sshd.pid",
 #     start       => "/etc/init.d/ssh start",

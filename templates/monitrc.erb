@@ -5,15 +5,15 @@
 
 set alert <%= scope.scope.lookupvar('monit::alert') %>
 
-<%- if scope.scope.lookupvar('monit::enable_httpd') == 'yes' -%>
+<% if scope.scope.lookupvar('monit::enable_httpd') == 'yes' -%>
 set httpd port <%= scope.scope.lookupvar('monit::httpd_port') %> and use address localhost
     allow localhost
-<%-
+<%
 require 'digest/sha1'
 s=scope.scope.lookupvar('monit::secret')
 -%>
     allow monit:<%= Digest::SHA1.hexdigest(s + Digest::SHA1.hexdigest(s + fqdn)) %> 
-<%- end -%>
+<% end -%>
 
 set daemon <%= scope.scope.lookupvar('monit::pool_interval') %>
 set logfile syslog facility log_daemon

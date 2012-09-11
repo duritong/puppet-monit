@@ -9,18 +9,9 @@
 #   source  - as for the "file" type
 #   target  - as for the "file' type
 #
-# Requires:
-#   Package["monit"]
+# Notifies:
+#   Service['monit']
 #
-# Sample usage:
-# (start code)
-#   monit::check::process{"openssh":
-#     pidfile     => "/var/run/sshd.pid",
-#     start       => "/etc/init.d/ssh start",
-#     stop        => "/etc/init.d/ssh stop",
-#     customlines => ["if failed port 22 then restart"]
-#   }
-# (end)
 define monit::snippet(
   $ensure  = present,
   $target  = undef,

@@ -1,27 +1,23 @@
-# Base class that setups the common things
+# Base class that setups the basic monit service
 class monit::base {
   package { 'monit':
     ensure => installed,
   }
 
   service { 'monit':
-    ensure  => running,
-    enable  => true,
-    require => Package['monit'],
+    ensure     => running,
+    enable     => true,
+    hasrestart => true,
+    restart    => '/usr/sbin/monit reload',
   }
 
-  # How to tell monit to reload its configuration
-  exec { 'monit reload':
-    command     => '/usr/sbin/monit reload',
-    refreshonly => true,
-  }
-
-  # Default values for all file resources
+  # Default values for all the following
+  # file resources
   File {
     owner   => 'root',
     group   => 0,
     mode    => '0400',
-    notify  => Exec['monit reload'],
+    notify  => Service['monit'],
     require => Package['monit'],
   }
 
@@ -43,7 +39,7 @@ class monit::base {
       content => template('monit/monitrc.erb');
   }
 
-  # A template configuration snippet.  It would need to be included,
+  # A template configuration snippet.  It needs to be included,
   # since monit's "include" statement cannot handle an empty directory.
   monit::snippet{ 'monit_template':
     source => 'puppet:///modules/monit/template.monitrc',

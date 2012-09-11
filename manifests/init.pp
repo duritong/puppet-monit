@@ -14,49 +14,39 @@
 #   mailserver => 'mail.example.com'
 # }
 #
-# The following is a list of the currently available variables:
+# The following is a list of the currently available parameters:
 #
-# alert:         who should get the email notifications?
+# alert:         Who should get the email notifications?
 #                Default: root@localhost
 #
-# enable_httpd:  should the httpd daemon be enabled?
-#                set this to 'yes' to enable it, be sure
-#                you have set the $monit_default_secret
+# enable_httpd:  Should the httpd daemon be enabled?
+#                Set this to 'yes' to enable it, be sure
+#                you set the secret parameter as well.
 #                Valid values: yes or no
 #                Default: no
 #
-# httpd_port:    what port should the httpd run on?
+# httpd_port:    What port should the httpd run on?
 #                Default: 2812
 #
 #
-# mailserver:    where should monit be sending mail?
-#                set this to the mailserver
+# mailserver:    Where should monit be sending mail?
+#                Set this to your mailserver
 #                Default: localhost
 #
-# pool_interval: how often (in seconds) should monit poll?
+# pool_interval: How often (in seconds) should monit poll?
 #                Default: 120
 #
-# secret:        The secret for the httpd daemon. Please set it!
+# secret:        The secret for the httpd daemon. Please read also
+#                that parameter's documentation!
+#                The default value will fail if required.
 #                Default: "This is not very secret, is it?"
 #
 class monit(
-  # The monit_secret is used with the fqdn of the host to make a
-  # password for the monit http server.
   $secret = 'This is not very secret, is it?',
-
-  # The default alert recipient.
   $alert = 'root@localhost',
-
-  # How often should the daemon pool? Interval in seconds.
   $pool_interval = '120',
-
-  # Should the httpd daemon be enabled, or not? By default it is not
   $enable_httpd = 'no',
-
-  # port for the httpd daemon
   $httpd_port = 2812,
-
-  # mailserver
   $mailserver = 'localhost'
 ){
   if $secret == 'This is not very secret, is it?' and $enable_httpd == 'yes' {
