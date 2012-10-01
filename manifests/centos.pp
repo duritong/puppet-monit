@@ -3,6 +3,9 @@ class monit::centos inherits monit::base {
   File['/etc/monit/monitrc'] {
     path => '/etc/monit.conf'
   }
+  File['/etc/monit/conf.d']{
+    path => '/etc/monit.d'
+  }
   
   file{"/etc/monit.d/logging":
     content => '# log to monit.log
