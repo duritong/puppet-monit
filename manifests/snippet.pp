@@ -27,17 +27,17 @@ define monit::snippet(
       notify => Service['monit'],
   }
   if $content {
-    File["${monit::base_config_path}}/${name}.monitrc"]{
+    File["${monit::base_config_path}/${name}.monitrc"]{
       content => $content
     }
   }
   if $target {
-    File["${monit::base_config_path}}/${name}.monitrc"]{
+    File["${monit::base_config_path}/${name}.monitrc"]{
       target => $target
     }
   }
   if $source {
-    File["${monit::base_config_path}}/${name}.monitrc"]{
+    File["${monit::base_config_path}/${name}.monitrc"]{
       source => $source
     }
   }
