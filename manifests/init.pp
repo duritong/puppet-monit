@@ -17,7 +17,15 @@
 # The following is a list of the currently available parameters:
 #
 # alert:         Who should get the email notifications?
-#                Default: root@localhost
+#                Example: root@localhost
+#                Default: 'absent'
+#
+# mailserver:    Where should monit be sending mail?
+#                Set this to your mailserver
+#                Monit will disable alert notification if no mailserver is
+#                present.
+#                Example: 'localhost'
+#                Default: 'absent'
 #
 # enable_httpd:  Should the httpd daemon be enabled?
 #                Set this to 'yes' to enable it, be sure
@@ -27,11 +35,6 @@
 #
 # httpd_port:    What port should the httpd run on?
 #                Default: 2812
-#
-#
-# mailserver:    Where should monit be sending mail?
-#                Set this to your mailserver
-#                Default: localhost
 #
 # pool_interval: How often (in seconds) should monit poll?
 #                Default: 120
@@ -43,17 +46,22 @@
 #
 class monit(
   $secret = 'This is not very secret, is it?',
-  $alert = 'root@localhost',
+  $alert = 'absent',
+  $mailserver = 'absent',
   $pool_interval = '120',
   $enable_httpd = 'no',
-  $httpd_port = 2812,
-  $mailserver = 'localhost'
+  $httpd_port = 2812
 ){
   if $secret == 'This is not very secret, is it?' and $enable_httpd == 'yes' {
     fail('You should set a different secret if you want to use the httpd!')
   }
 
-  case $operatingsystem {
+  $base_config_path = $::operatingsystem ? {
+    centos => '/etc/monit.d',
+    default => '/etc/monit/conf.d' 
+  }
+
+  case $::operatingsystem {
     debian,ubuntu: { include monit::debian }
     default: { include monit::base }
   }

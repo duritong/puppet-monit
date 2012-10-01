@@ -36,12 +36,6 @@ class monit::base {
       force   => true,
       mode    => '0700';
     '/etc/monit/monitrc':
-      content => template('monit/monitrc.erb');
-  }
-
-  # A template configuration snippet.  It needs to be included,
-  # since monit's "include" statement cannot handle an empty directory.
-  monit::snippet{ 'monit_template':
-    source => 'puppet:///modules/monit/template.monitrc',
+      content => template("monit/monitrc.${::operatingsystem}.erb");
   }
 }

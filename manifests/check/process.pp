@@ -37,7 +37,7 @@ define monit::check::process(
   $stop_extras  = '',
   $customlines  = ''
 ) {
-  file {"/etc/monit/conf.d/${name}.monitrc":
+  file {"${monit::base_config_path}/${name}.monitrc":
     ensure  => $ensure,
     owner   => 'root',
     group   => 0,

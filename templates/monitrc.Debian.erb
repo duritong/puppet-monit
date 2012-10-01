@@ -3,8 +3,14 @@
 # This file is handled by puppet, any local changes will be lost
 #
 
+<% unless scope.scope.lookupvar('monit::alert') == 'absent' -%>
 set alert <%= scope.scope.lookupvar('monit::alert') %>
 
+<% end %>
+<% unless monit::mailserver == 'absent' -%>
+set mailserver <%= scope.scope.lookupvar('monit::mailserver') %>
+
+<% end -%>
 <% if scope.scope.lookupvar('monit::enable_httpd') == 'yes' -%>
 set httpd port <%= scope.scope.lookupvar('monit::httpd_port') %> and use address localhost
     allow localhost
@@ -17,7 +23,6 @@ s=scope.scope.lookupvar('monit::secret')
 
 set daemon <%= scope.scope.lookupvar('monit::pool_interval') %>
 set logfile syslog facility log_daemon
-set mailserver <%= scope.scope.lookupvar('monit::mailserver') %>
 
 # Include settings from other files
 include /etc/monit/conf.d/*.monitrc

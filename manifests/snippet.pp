@@ -19,7 +19,7 @@ define monit::snippet(
   $content = undef
 ){
   file {
-    "/etc/monit/conf.d/${name}.monitrc":
+    "${monit::base_config_path}/${name}.monitrc":
       ensure => $ensure,
       owner  => 'root',
       group  => 0,
@@ -27,17 +27,17 @@ define monit::snippet(
       notify => Service['monit'],
   }
   if $content {
-    File["/etc/monit/conf.d/${name}.monitrc"]{
+    File["${monit::base_config_path}}/${name}.monitrc"]{
       content => $content
     }
   }
   if $target {
-    File["/etc/monit/conf.d/${name}.monitrc"]{
+    File["${monit::base_config_path}}/${name}.monitrc"]{
       target => $target
     }
   }
   if $source {
-    File["/etc/monit/conf.d/${name}.monitrc"]{
+    File["${monit::base_config_path}}/${name}.monitrc"]{
       source => $source
     }
   }
