@@ -54,7 +54,10 @@ class monit(
     centos  => 'absent',
     default => 'localhost' 
   },
-  $pool_interval = '120',
+  $pool_interval = $::operatingsystem ? {
+    centos  => '60',
+    default => '120'
+  },
   $enable_httpd = 'no',
   $httpd_port = 2812
 ){
