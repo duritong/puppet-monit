@@ -18,14 +18,14 @@
 #
 # alert:         Who should get the email notifications?
 #                Example: root@localhost
-#                Default: 'absent'
+#                Default: Cenots: 'absent', Debian: root@localhost 
 #
 # mailserver:    Where should monit be sending mail?
 #                Set this to your mailserver
 #                Monit will disable alert notification if no mailserver is
 #                present.
 #                Example: 'localhost'
-#                Default: 'absent'
+#                Default: CentOS: 'absent', Debian: 'localhost'
 #
 # enable_httpd:  Should the httpd daemon be enabled?
 #                Set this to 'yes' to enable it, be sure
@@ -46,8 +46,14 @@
 #
 class monit(
   $secret = 'This is not very secret, is it?',
-  $alert = 'absent',
-  $mailserver = 'absent',
+  $alert = $::operatingsystem ? {
+    centos  => 'absent',
+    default => 'root@localhost' 
+  },
+  $mailserver = $::operatingsystem ? {
+    centos  => 'absent',
+    default => 'localhost' 
+  },
   $pool_interval = '120',
   $enable_httpd = 'no',
   $httpd_port = 2812
