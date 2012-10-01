@@ -7,6 +7,10 @@ class monit::centos inherits monit::base {
     path => '/etc/monit.d'
   }
   
+  Service['monit']{
+    restart    => '/usr/bin/monit reload',
+  }
+  
   file{"/etc/monit.d/logging":
     content => '# log to monit.log
 set logfile /var/log/monit
