@@ -72,6 +72,7 @@ class monit(
 
   case $::operatingsystem {
     debian,ubuntu: { include monit::debian }
+    centos: { include monit::centos }
     default: { include monit::base }
   }
 }
