@@ -222,7 +222,7 @@
 set alert <%= scope.lookupvar('monit::alert') %>
 
 <% end %>
-<% unless scope.lookupvar('monit::mailserver')' == 'absent' -%>
+<% unless scope.lookupvar('monit::mailserver') == 'absent' -%>
 set mailserver <%= scope.lookupvar('monit::mailserver') %>
 <% end -%>
 <% if scope.lookupvar('monit::enable_httpd') == 'yes' -%>
