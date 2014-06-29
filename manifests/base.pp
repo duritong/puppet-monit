@@ -8,7 +8,7 @@ class monit::base {
     ensure     => running,
     enable     => true,
     hasrestart => true,
-    restart    => '/usr/sbin/monit reload',
+    hasstatus  => true,
   }
 
   # Default values for all the following
