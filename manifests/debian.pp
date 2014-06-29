@@ -6,7 +6,7 @@ class monit::debian inherits monit::base {
   }
   # Monit is disabled by default on debian / ubuntu
   file { '/etc/default/monit':
-    content => "startup=1\nCHECK_INTERVALS=${monit::pool_interval}\n",
+    content => "START=yes\n#MONIT_OPTS=\n",
     notify  => Service['monit']
   }
 
