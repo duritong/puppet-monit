@@ -132,12 +132,12 @@ set alert <%= scope.lookupvar('monit::alert') %>
 <% if scope.lookupvar('monit::enable_httpd') == 'yes' -%>
 set httpd port <%= scope.lookupvar('monit::httpd_port') %> and use address localhost
     allow localhost
-<%
+<% if @secret
 require 'digest/sha1'
-s=scope.lookupvar('monit::secret')
 -%>
-    allow monit:<%= Digest::SHA1.hexdigest(s + Digest::SHA1.hexdigest(s + fqdn)) %> 
-<% end -%>
+    allow monit:<%= Digest::SHA1.hexdigest(@secret + Digest::SHA1.hexdigest(@secret + fqdn)) %>
+<% end
+end -%>
 #
 ###############################################################################
 ## Services
