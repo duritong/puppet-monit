@@ -37,6 +37,7 @@ define monit::check::process(
   $stop_extras  = '',
   $customlines  = ''
 ) {
+  include monit
   file {"${monit::base_config_path}/${name}.monitrc":
     ensure  => $ensure,
     owner   => 'root',
